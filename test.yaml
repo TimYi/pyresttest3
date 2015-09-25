@@ -1,0 +1,27 @@
+---
+tests:
+    -
+        name: test_name
+        url: /api/navigations
+        method: get
+        #设置request body的数据格式，默认为json，可以选xml，如果有文件上传，会忽略此字段
+        type: json
+        #默认get方法的参数为request param，post方法的参数格式为json，可以使用el表达式
+        body: {"key1":1, "key2":"str_value"}
+        #通过headers可以设置用户的特殊请求头，可以使用el表达式
+        headers: {'Content-Type': 'application/json'}
+        #如果上传files，则默认为multi-part格式
+        files: {"name1":"path1", "name2":"path2"}
+        #返回数据的数据类型
+        data_type: json/xml/html
+        #返回数据的验证字段，key可以是用'.'区分的嵌套key
+        validates: {"key1":1, "key2":"str_value"}
+        #需要提取供后续使用的键，会按照key提取，可以嵌套，让后使用时将使用test_name.alias名称的变量
+        results: {"key1":"alias1","key2":"alias2"}
+
+    -
+        name: test2_name
+        url: http://www.doublev2v.com/api/test
+        method: get
+        data_type: get
+        validates: {"key1":"${test_name.result1}"}
